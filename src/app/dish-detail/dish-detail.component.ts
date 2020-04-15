@@ -1,4 +1,4 @@
-import { Component, OnInit,Input , ViewChild } from '@angular/core';
+import { Component, OnInit,Input , ViewChild, Inject } from '@angular/core';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 import { Params, ActivatedRoute } from '@angular/router';
@@ -7,6 +7,7 @@ import { switchMap } from 'rxjs/operators';
 import { Comment } from '../shared/comment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MatSliderModule } from '@angular/material/slider';
+import { baseURL } from '../shared/baseurl';
 
 @Component({
   selector: 'app-dish-detail',
@@ -26,9 +27,12 @@ export class DishDetailComponent implements OnInit {
   constructor(private dishService: DishService,
     private route: ActivatedRoute,
     private location: Location,
-    private fb:FormBuilder) { this.createForm(); }
+    private fb:FormBuilder,
+  @Inject('BaseURL') public BaseURL) { }
 
     ngOnInit() {
+      this.createForm();
+
       this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
       this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
       .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
