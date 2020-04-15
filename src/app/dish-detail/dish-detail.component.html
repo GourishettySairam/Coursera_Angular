@@ -30,15 +30,13 @@
         <button mat-button [routerLink]="['/dishdetail', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
       </mat-card-actions>
     </mat-card>
-    <div [hidden]="dish">
-      <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
-    </div>
+
 
   </div>
 
 
 
-  <div fxFlex="40" >
+  <div fxFlex="40" *ngIf="dish">
 	<mat-list >
 		<h3>Comments</h3>
 		<mat-list-item *ngFor="let comment of dish.comments">
@@ -58,8 +56,10 @@
           </p>
       </mat-list-item>
   </mat-list>
-  <div [hidden]="dish">
-    <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
+
+  <div fxFlex *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
   </div>
 
 
@@ -82,6 +82,9 @@
   </form>
 
 
+  </div>
+  <div [hidden]="dish">
+    <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
   </div>
 
   </div>
